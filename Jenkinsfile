@@ -1,8 +1,6 @@
 pipeline {
     agent {
-        docker {
-            image 'node:14-alpine'
-        }
+        dockerfile true
     }
     environment {
         AWS_S3_BUCKET = credentials('aws-s3-bucket')
@@ -10,7 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "aws S3 bucket: ${env.AWS_S3_BUCKET}"
+                echo "Running ${env.BUILD_ID}"
                 sh 'node --version'
                 sh 'npm install'
             }
