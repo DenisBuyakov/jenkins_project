@@ -1,6 +1,11 @@
 pipeline {
     agent {
-        dockerfile true
+        dockerfile {
+            filename 'Dockerfile'
+            dir 'docker'
+            label 'my-defined-label'
+            additionalBuildArgs  '--build-arg version=1.0.0'
+        }
     }
     environment {
         AWS_S3_BUCKET = credentials('aws-s3-bucket')
