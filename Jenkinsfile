@@ -28,7 +28,7 @@ pipeline {
         stage('upload to s3') {
             steps {
                 input message: 'Upload? (Click "Proceed" to continue)'
-                sh 'aws s3 cp public s3://${env.AWS_S3_BUCKET} --recursive'
+                sh "aws s3 cp public s3://${env.AWS_S3_BUCKET} --recursive"
                 echo "aws S3 bucket: ${env.AWS_S3_BUCKET}"
             }
         }
