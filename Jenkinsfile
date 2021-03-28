@@ -28,28 +28,28 @@ pipeline {
             }
         }
         stage('upload to s3') {
-            agent any
+//             agent any
             steps {
                 input message: 'Upload? (Click "Proceed" to continue)'
                 sh "aws s3 cp public s3://${env.AWS_S3_BUCKET} --recursive"
                 echo "aws S3 bucket: ${env.AWS_S3_BUCKET}"
             }
         }
-        stage('zip to s3') {
-            environment {
-                AWS_DEFAULT_REGION=<region of bucket>
-                AWS_ACCESS_KEY_ID=<aws id>
-                AWS_SECRET_ACCESS_KEY=<your s3 access key>
-                STACK_NAME = 'sam-app-beta-stage'
-                S3_BUCKET = 'sam-jenkins-demo-us-west-2-user1'
-            }
-            steps {
-                input message: 'Publish? (Click "Proceed" to continue)'
-            }
-        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'deploytos3', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-            sh 'aws s3 cp public s3://<bucket-name> --recursive'
-            sh "aws s3 ls"
-            sh "aws s3 cp addressbook_main/target/addressbook.war s3://cloudyeticicd/"
-        }
+//         stage('zip to s3') {
+//             environment {
+//                 AWS_DEFAULT_REGION=<region of bucket>
+//                 AWS_ACCESS_KEY_ID=<aws id>
+//                 AWS_SECRET_ACCESS_KEY=<your s3 access key>
+//                 STACK_NAME = 'sam-app-beta-stage'
+//                 S3_BUCKET = 'sam-jenkins-demo-us-west-2-user1'
+//             }
+//             steps {
+//                 input message: 'Publish? (Click "Proceed" to continue)'
+//             }
+//         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'deploytos3', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+//             sh 'aws s3 cp public s3://<bucket-name> --recursive'
+//             sh "aws s3 ls"
+//             sh "aws s3 cp addressbook_main/target/addressbook.war s3://cloudyeticicd/"
+//         }
     }
 }
