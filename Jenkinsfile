@@ -1,9 +1,13 @@
+def suiteRunId = UUID.randomUUID().toString()
 pipeline {
     agent {
         dockerfile {
             filename 'Dockerfile'
             dir 'docker'
-            additionalBuildArgs  '--build-arg version=1.0.0'
+            reuseNode true
+            args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
+            additionalBuildArgs  '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
+
         }
     }
     environment {
