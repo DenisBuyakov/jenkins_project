@@ -5,7 +5,7 @@ pipeline {
             filename 'Dockerfile'
             dir 'docker'
             reuseNode true
-            args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
+//             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
             additionalBuildArgs  '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
 
         }
@@ -32,11 +32,11 @@ pipeline {
             }
         }
         stage('upload to s3') {
-//             agent any
+            agent any
             steps {
+                echo "WORKSPACE: ${WORKSPACE}"
                 input message: 'Upload? (Click "Proceed" to continue)'
-                sh "aws s3 cp public s3://${env.AWS_S3_BUCKET} --recursive"
-                echo "aws S3 bucket: ${env.AWS_S3_BUCKET}"
+                sh "aws s3 cp ${WORKSPACE}/public s3://${env.AWS_S3_BUCKET} --recursive"
             }
         }
 //         stage('zip to s3') {
