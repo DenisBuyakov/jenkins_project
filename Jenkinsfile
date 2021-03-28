@@ -32,7 +32,7 @@ pipeline {
             }
         }
         stage('upload to s3') {
-            agent any
+//             agent any
             steps {
                 echo "WORKSPACE: ${WORKSPACE}"
                 input message: 'Upload? (Click "Proceed" to continue)'
