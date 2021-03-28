@@ -30,4 +30,4 @@ RUN apk update \
         binutils \
         curl \
         unzip \
-    && aws --version && docker -v
+    && aws --version
