@@ -73,7 +73,7 @@ pipeline {
                     sh 'ssh -o StrictHostKeyChecking=no -l ubuntu ec2-13-53-35-85.eu-north-1.compute.amazonaws.com uname -a'
 //                     sh 'ssh -o StrictHostKeyChecking=no ubuntu@hostname.com uptime'
 //                     sh 'ssh -v ubuntu@hostname.com'
-                    sh 'scp -r $WORKSPACE -l ubuntu ec2-13-53-35-85.eu-north-1.compute.amazonaws.com:~/target'
+                    sh 'scp -r $WORKSPACE ec2-13-53-35-85.eu-north-1.compute.amazonaws.com:~/target/'
                 }
             }
         }
