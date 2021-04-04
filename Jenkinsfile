@@ -2,6 +2,9 @@ def suiteRunId = UUID.randomUUID().toString()
 pipeline {
     agent none
     stages {
+        environment {
+            AWS_S3_BUCKET = credentials('aws-s3-bucket')
+        }
         stage('build and test the project') {
             agent {
                 dockerfile {
@@ -14,9 +17,6 @@ pipeline {
                     //             label "build-image"
                 }
             }
-            //     environment {
-            //         AWS_S3_BUCKET = credentials('aws-s3-bucket')
-            //     }
             stages {
                 stage('Build') {
                     steps {
@@ -55,10 +55,10 @@ pipeline {
 //                 export AWS_DEFAULT_REGION=us-west-2
 //                 '''
 //
-                sh "aws s3 cp ${WORKSPACE} s3://denis-jenkins/jenkins-project-temp --recursive"
-//                 sh "aws s3 rm s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project --recursive"
-//                 sh "aws s3 mv s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project-temp s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project"
-//                 sh "aws s3 ls s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project"
+                sh "aws s3 cp ${WORKSPACE} s3://${env.AWS_S3_BUCKET}/jenkins-project-temp --recursive"
+                sh "aws s3 rm s3://${env.AWS_S3_BUCKET}/jenkins-project --recursive"
+                sh "aws s3 mv s3://${env.AWS_S3_BUCKET}/jenkins-project-temp s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project"
+                sh "aws s3 ls s3://${env.AWS_S3_BUCKET}/jenkins-project"
 //                 sh "aws s3 cp ${WORKSPACE}/public s3://${env.AWS_S3_BUCKET} --recursive"
             }
         }
