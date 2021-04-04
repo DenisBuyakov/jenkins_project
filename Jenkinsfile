@@ -6,6 +6,8 @@ pipeline {
         }
     stages {
         stage('build and test the project') {
+        parallel {
+        stage('parallel') {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
@@ -35,6 +37,8 @@ pipeline {
                         sh 'npm run test'
                     }
                 }
+            }
+            }
             }
         }
         stage('upload to s3') {
