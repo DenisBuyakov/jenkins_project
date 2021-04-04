@@ -4,7 +4,7 @@ pipeline {
         environment {
              AWS_S3_BUCKET = credentials('aws-s3-bucket')
         }
-    stages {
+    parallel {
         stage('build and test the project') {
             agent {
                 dockerfile {
@@ -17,7 +17,7 @@ pipeline {
                     //             label "build-image"
                 }
             }
-            parallel {
+            stages {
                 stage('Build') {
                     steps {
                         echo "Running ${env.BUILD_ID}"
