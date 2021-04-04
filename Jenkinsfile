@@ -67,6 +67,7 @@ pipeline {
             }
         }
         stage ('Deploy') {
+            agent any
             steps{
                 sshagent(credentials : ['jenkins-project-ssh']) {
                 sh 'ssh -o StrictHostKeyChecking=no -l ubuntu ec2-13-53-35-85.eu-north-1.compute.amazonaws.com uname -a'
