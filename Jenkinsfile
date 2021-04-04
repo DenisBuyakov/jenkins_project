@@ -1,58 +1,59 @@
 def suiteRunId = UUID.randomUUID().toString()
 pipeline {
     agent none
-        environment {
-             AWS_S3_BUCKET = credentials('aws-s3-bucket')
-        }
+    environment {
+        AWS_S3_BUCKET = credentials('aws-s3-bucket')
+    }
     stages {
-                            stage('Build') {
-                                        agent {
-                                            dockerfile {
-                                                filename 'Dockerfile'
-                                                dir 'docker'
-                                                //             reuseNode true
-                                                //             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
-                                                additionalBuildArgs '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
-                                                //             args '-v /tmp:/tmp'
-                                                //             label "build-image"
-                                            }
-                                        }
-                                steps {
-                                    echo "Running ${env.BUILD_ID}"
-                                    sh 'node --version'
-                                    sh 'npm install'
-                                }
-                            }
+        stage('Build') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    dir 'docker'
+                    reuseNode true
+                    //             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
+                    additionalBuildArgs '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
+                    //             args '-v /tmp:/tmp'
+                    //             label "build-image"
+                }
+            }
+            steps {
+                echo "Running ${env.BUILD_ID}"
+                sh 'node --version'
+                sh 'npm install'
+            }
+        }
         stage('build and test the project') {
             parallel {
                 stage('Code analyse') {
-                            agent {
-                                dockerfile {
-                                    filename 'Dockerfile'
-                                    dir 'docker'
-                                    //             reuseNode true
-                                    //             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
-                                    additionalBuildArgs '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
-                                    //             args '-v /tmp:/tmp'
-                                    //             label "build-image"
-                                }
-                            }
+                    agent {
+                        dockerfile {
+                            filename 'Dockerfile'
+                            dir 'docker'
+                            reuseNode true
+                            //             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
+                            additionalBuildArgs '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
+                            //             args '-v /tmp:/tmp'
+                            //             label "build-image"
+                        }
+                    }
                     steps {
                         sh 'npm run linter'
                     }
                 }
                 stage('Test') {
-                            agent {
-                                dockerfile {
-                                    filename 'Dockerfile'
-                                    dir 'docker'
-                                    //             reuseNode true
-                                    //             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
-                                    additionalBuildArgs '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
-                                    //             args '-v /tmp:/tmp'
-                                    //             label "build-image"
-                                }
-                            }
+                    agent {
+                        dockerfile {
+                            filename 'Dockerfile'
+                            dir 'docker'
+                            reuseNode true
+                            //             reuseNode true
+                            //             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
+                            additionalBuildArgs '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
+                            //             args '-v /tmp:/tmp'
+                            //             label "build-image"
+                        }
+                    }
                     steps {
                         sh 'npm run test'
                     }
