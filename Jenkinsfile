@@ -11,9 +11,9 @@ pipeline {
                     filename 'Dockerfile'
                     dir 'docker'
                     reuseNode true
-                    //             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
+                                args '-v $WORKSPACE/tmp/project_${suiteRunId}:/app'
                     additionalBuildArgs '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
-                    //             args '-v /tmp:/tmp'
+//                                 args '-v /tmp:/tmp'
                     //             label "build-image"
                 }
             }
@@ -26,11 +26,33 @@ pipeline {
         stage('build and test the project') {
             parallel {
                 stage('Code analyse') {
+                            agent {
+                                dockerfile {
+                                    filename 'Dockerfile'
+                                    dir 'docker'
+                                    reuseNode true
+                                                args '-v $WORKSPACE/tmp/project_${suiteRunId}:/app'
+                                    additionalBuildArgs '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
+                //                                 args '-v /tmp:/tmp'
+                                    //             label "build-image"
+                                }
+                            }
                     steps {
                         sh 'npm run linter'
                     }
                 }
                 stage('Test') {
+                            agent {
+                                dockerfile {
+                                    filename 'Dockerfile'
+                                    dir 'docker'
+                                    reuseNode true
+                                                args '-v $WORKSPACE/tmp/project_${suiteRunId}:/app'
+                                    additionalBuildArgs '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
+                //                                 args '-v /tmp:/tmp'
+                                    //             label "build-image"
+                                }
+                            }
                     steps {
                         sh 'npm run test'
                     }
