@@ -66,6 +66,22 @@ pipeline {
 //                 sh "aws s3 cp ${WORKSPACE}/public s3://${env.AWS_S3_BUCKET} --recursive"
             }
         }
+        stage ('Deploy') {
+            steps{
+                sshagent(credentials : ['jenkins-project-ssh']) {
+                sh 'ssh -o StrictHostKeyChecking=no -l ubuntu ec2-13-53-35-85.eu-north-1.compute.amazonaws.com uname -a'
+//                     sh 'ssh -o StrictHostKeyChecking=no ubuntu@hostname.com uptime'
+//                     sh 'ssh -v ubuntu@hostname.com'
+//                     sh 'scp ./source/filename user@hostname.com:/remotehost/target'
+                }
+            }
+        }
+//         stage ('Deploy') {
+//         sh 'ssh user@server rm -rf /var/www/temp_deploy/dist/'
+//         sh 'ssh user@server mkdir -p /var/www/temp_deploy'
+//         sh 'scp -r dist user@server:/var/www/temp_deploy/dist/'
+//         sh 'ssh user@server "rm -rf /var/www/example.com/dist/ && mv /var/www/temp_deploy/dist/ /var/www/example.com/"'
+//         }
 //         stage('zip to s3') {
 //             environment {
 //                 AWS_DEFAULT_REGION=<region of bucket>
