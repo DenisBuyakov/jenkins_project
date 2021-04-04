@@ -11,9 +11,9 @@ pipeline {
 //             label "build-image"
         }
     }
-    environment {
-        AWS_S3_BUCKET = credentials('aws-s3-bucket')
-    }
+//     environment {
+//         AWS_S3_BUCKET = credentials('aws-s3-bucket')
+//     }
     stages {
         stage('Build') {
             steps {
