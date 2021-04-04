@@ -74,7 +74,7 @@ pipeline {
 //                     sh 'ssh -o StrictHostKeyChecking=no ubuntu@hostname.com uptime'
 //                     sh 'ssh -v ubuntu@hostname.com'
 //                     sh 'scp /Users/exampleUser/home/aws/listDProcessesNativeStacks.sh ubuntu@ip-172-31-69-105.ec2.internal:/home/ubuntu'
-                    sh 'scp -r $WORKSPACE ubuntu@ec2-13-53-35-85.eu-north-1.compute.amazonaws.com:/var/target/'
+                    sh 'scp -r $WORKSPACE ubuntu@ec2-13-53-35-85.eu-north-1.compute.amazonaws.com:~/target/'
                 }
             }
         }
