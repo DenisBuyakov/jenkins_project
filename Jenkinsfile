@@ -17,7 +17,7 @@ pipeline {
                     //             label "build-image"
                 }
             }
-            stages {
+            parallel {
                 stage('Build') {
                     steps {
                         echo "Running ${env.BUILD_ID}"
