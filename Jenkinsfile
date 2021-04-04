@@ -49,7 +49,10 @@ pipeline {
 //                 export AWS_DEFAULT_REGION=us-west-2
 //                 '''
 //
-                sh "aws s3 cp ${WORKSPACE} s3://${env.AWS_S3_BUCKET} --recursive"
+                sh "aws s3 cp ${WORKSPACE} s3://${env.AWS_S3_BUCKET}/jenkins-project-temp --recursive"
+                sh "aws s3 rm s3://${env.AWS_S3_BUCKET}/jenkins-project --recursive"
+                sh "aws s3 mv s3://${env.AWS_S3_BUCKET}/jenkins-project-temp s3://${env.AWS_S3_BUCKET}/jenkins-project"
+                sh "aws s3 ls s3://${env.AWS_S3_BUCKET}/jenkins-project"
 //                 sh "aws s3 cp ${WORKSPACE}/public s3://${env.AWS_S3_BUCKET} --recursive"
             }
         }
