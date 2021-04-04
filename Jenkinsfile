@@ -1,10 +1,10 @@
 def suiteRunId = UUID.randomUUID().toString()
 pipeline {
     agent none
-    stages {
         environment {
-            AWS_S3_BUCKET = credentials('aws-s3-bucket')
+             AWS_S3_BUCKET = credentials('aws-s3-bucket')
         }
+    stages {
         stage('build and test the project') {
             agent {
                 dockerfile {
