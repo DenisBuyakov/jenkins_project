@@ -1,35 +1,40 @@
 def suiteRunId = UUID.randomUUID().toString()
 pipeline {
-    agent {
-        dockerfile {
-            filename 'Dockerfile'
-            dir 'docker'
-//             reuseNode true
-//             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
-            additionalBuildArgs  '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
-//             args '-v /tmp:/tmp'
-//             label "build-image"
-        }
-    }
-//     environment {
-//         AWS_S3_BUCKET = credentials('aws-s3-bucket')
-//     }
+    agent none
     stages {
-        stage('Build') {
-            steps {
-                echo "Running ${env.BUILD_ID}"
-                sh 'node --version'
-                sh 'npm install'
+        stage('build and test the project') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    dir 'docker'
+                    //             reuseNode true
+                    //             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
+                    additionalBuildArgs '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
+                    //             args '-v /tmp:/tmp'
+                    //             label "build-image"
+                }
             }
+            //     environment {
+            //         AWS_S3_BUCKET = credentials('aws-s3-bucket')
+            //     }
         }
-        stage('Code analyse') {
-            steps {
-                sh 'npm run linter'
+        stages {
+            stage('Build') {
+                steps {
+                    echo "Running ${env.BUILD_ID}"
+                    sh 'node --version'
+                    sh 'npm install'
+                }
             }
-        }
-        stage('Test') {
-            steps {
-                sh 'npm run test'
+            stage('Code analyse') {
+                steps {
+                    sh 'npm run linter'
+                }
+            }
+            stage('Test') {
+                steps {
+                    sh 'npm run test'
+                }
             }
         }
         stage('upload to s3') {
