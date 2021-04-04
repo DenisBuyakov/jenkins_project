@@ -17,23 +17,23 @@ pipeline {
             //     environment {
             //         AWS_S3_BUCKET = credentials('aws-s3-bucket')
             //     }
-        }
-        stages {
-            stage('Build') {
-                steps {
-                    echo "Running ${env.BUILD_ID}"
-                    sh 'node --version'
-                    sh 'npm install'
+            stages {
+                stage('Build') {
+                    steps {
+                        echo "Running ${env.BUILD_ID}"
+                        sh 'node --version'
+                        sh 'npm install'
+                    }
                 }
-            }
-            stage('Code analyse') {
-                steps {
-                    sh 'npm run linter'
+                stage('Code analyse') {
+                    steps {
+                        sh 'npm run linter'
+                    }
                 }
-            }
-            stage('Test') {
-                steps {
-                    sh 'npm run test'
+                stage('Test') {
+                    steps {
+                        sh 'npm run test'
+                    }
                 }
             }
         }
