@@ -7,7 +7,8 @@ pipeline {
             reuseNode true
 //             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
             additionalBuildArgs  '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
-
+//             args '-v /tmp:/tmp'
+//             label "build-image"
         }
     }
     environment {
@@ -49,10 +50,10 @@ pipeline {
 //                 export AWS_DEFAULT_REGION=us-west-2
 //                 '''
 //
-                sh "aws s3 cp ${WORKSPACE} s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project-temp --recursive"
-                sh "aws s3 rm s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project --recursive"
-                sh "aws s3 mv s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project-temp s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project"
-                sh "aws s3 ls s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project"
+                sh "aws s3 cp ${WORKSPACE} s3://denis-jenkins/jenkins-project-temp --recursive"
+//                 sh "aws s3 rm s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project --recursive"
+//                 sh "aws s3 mv s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project-temp s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project"
+//                 sh "aws s3 ls s3://\"${env.AWS_S3_BUCKET}\"/jenkins-project"
 //                 sh "aws s3 cp ${WORKSPACE}/public s3://${env.AWS_S3_BUCKET} --recursive"
             }
         }
