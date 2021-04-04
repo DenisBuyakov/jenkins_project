@@ -3,6 +3,9 @@ pipeline {
     agent none
         environment {
              AWS_S3_BUCKET = credentials('aws-s3-bucket')
+             AWS_DEFAULT_REGION = credentials('aws-default-region')
+             AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+             AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
         }
     stages {
         stage('build and test the project') {
