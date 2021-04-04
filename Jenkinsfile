@@ -5,26 +5,26 @@ pipeline {
              AWS_S3_BUCKET = credentials('aws-s3-bucket')
         }
     stages {
-        stage('build and test the project') {
-            parallel {
-                stage('Build') {
-                            agent {
-                                dockerfile {
-                                    filename 'Dockerfile'
-                                    dir 'docker'
-                                    //             reuseNode true
-                                    //             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
-                                    additionalBuildArgs '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
-                                    //             args '-v /tmp:/tmp'
-                                    //             label "build-image"
+                            stage('Build') {
+                                        agent {
+                                            dockerfile {
+                                                filename 'Dockerfile'
+                                                dir 'docker'
+                                                //             reuseNode true
+                                                //             args '-v $WORKSPACE:/tmp/project_${suiteRunId}'
+                                                additionalBuildArgs '--build-arg version=1.0.0 --build-arg suite_run_id=${suiteRunId}'
+                                                //             args '-v /tmp:/tmp'
+                                                //             label "build-image"
+                                            }
+                                        }
+                                steps {
+                                    echo "Running ${env.BUILD_ID}"
+                                    sh 'node --version'
+                                    sh 'npm install'
                                 }
                             }
-                    steps {
-                        echo "Running ${env.BUILD_ID}"
-                        sh 'node --version'
-                        sh 'npm install'
-                    }
-                }
+        stage('build and test the project') {
+            parallel {
                 stage('Code analyse') {
                             agent {
                                 dockerfile {
